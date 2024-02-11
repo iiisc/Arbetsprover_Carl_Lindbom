@@ -93,7 +93,7 @@ class Program
             Console.WriteLine("5. Öppna från fil ");
             Console.WriteLine("6. Avsluta ");
         }
-    static void Main(string[] args)
+    static void Main()
     {
         bool menu = true;
         List<Shape> shapeList = new List<Shape>();
