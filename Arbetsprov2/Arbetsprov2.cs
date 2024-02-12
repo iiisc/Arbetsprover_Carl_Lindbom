@@ -90,7 +90,15 @@ class Program
         Input into text-file for safe string encapsulation
         Filepath hardcoded since we only need to parse specific file once.
         */
-        StreamReader reader = new(@"C:\Users\Fractal ERA\Desktop\Vitec\Arbetsprov2\input.txt");
+        string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        string? directoryPath = Path.GetDirectoryName(exePath);
+        string fullPath = directoryPath + @"\input.txt";
+        Console.WriteLine(fullPath);
+
+
+        //StreamReader reader = new(@"C:\Users\Fractal ERA\Desktop\Vitec\Arbetsprov2\input.txt");
+        StreamReader reader = new(fullPath);
+
         string input = reader.ReadToEnd();
 
         //  NullifyJunk removes blocks of junks and only saves '{' and '}'
