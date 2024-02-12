@@ -93,8 +93,6 @@ class Program
         string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
         string? directoryPath = Path.GetDirectoryName(exePath);
         string fullPath = directoryPath + @"\input.txt";
-        Console.WriteLine(fullPath);
-
 
         //StreamReader reader = new(@"C:\Users\Fractal ERA\Desktop\Vitec\Arbetsprov2\input.txt");
         StreamReader reader = new(fullPath);
