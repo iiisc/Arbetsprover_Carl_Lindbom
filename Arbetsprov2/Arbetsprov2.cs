@@ -43,7 +43,7 @@ class Program
     static string ParseOuterGroup(string input)
     /** 
     Takes a string. Removes outermost groups and returns that as string.
-    Adds points to static variable 'points' according to rules provided.
+    Adds points to static variable 'points' according to rules provided. 
     */
     {
         var output = new StringBuilder();
