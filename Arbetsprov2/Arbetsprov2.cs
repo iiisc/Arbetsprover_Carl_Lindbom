@@ -1,11 +1,14 @@
 ﻿using System.Text;
-
 class Program
   {
-    static string NullifyJunk(string input) {
+    static int points = 0;
+    static string NullifyJunk(string input)
+    /** 
+    Takes a string. Removes blocks of junk. Returns string with only '{' or '}'
+    */
+    {
         bool parsingJunk = false;
         bool skipNext = false;
-
         var output = new StringBuilder();
 
         foreach (var token in input) 
@@ -25,7 +28,10 @@ class Program
             }
 
             if(!parsingJunk) {
-                output.Append(token);
+                if (token == '{' || token == '}')
+                {
+                    output.Append(token);
+                }
             }
 
             if (token == '>' && parsingJunk) {
@@ -34,34 +40,71 @@ class Program
         }
         return output.ToString();
     }
+    static string ParseOuterGroup(string input)
+    /** 
+    Takes a string. Removes outermost groups and returns that as string.
+    Adds points to static variable 'points' according to rules provided.
+    */
+    {
+        var output = new StringBuilder();
+        bool parsingGroup = false;
+        int groupsOpen = 0;
+        int groupsClosed = 0;
+        
+        foreach (var token in input)
+        {
+            if (token == '{' && !parsingGroup){
+                parsingGroup = true;
+                continue;
+            }
+
+            if (parsingGroup && token == '}' && groupsOpen == groupsClosed) 
+            {
+                parsingGroup = false;
+                points += groupsClosed + 1;
+                groupsOpen = 0;
+                groupsClosed = 0;
+                continue;
+            }
+
+            if (parsingGroup && token == '{') 
+            {
+                groupsOpen += 1;
+            }
+
+            if (parsingGroup && token == '}') 
+            {
+                groupsClosed += 1;
+            }
+
+            if(parsingGroup)
+            {
+                output.Append(token);
+            }   
+        }
+        return output.ToString();
+    }
     static void Main()
     {
-        //StreamReader reader = new(@"C:\Users\Fractal ERA\Desktop\Vitec\Arbetsprov2\input.txt");
-        //string input = reader.ReadToEnd();
+        /* 
+        Input into text-file for safe string encapsulation
+        Filepath hardcoded since we only need to parse specific file once.
+        */
+        StreamReader reader = new(@"C:\Users\Fractal ERA\Desktop\Vitec\Arbetsprov2\input.txt");
+        string input = reader.ReadToEnd();
 
-        string testString = " { } { }";
-        Console.WriteLine("Original: {0}", testString);
-        //Console.WriteLine("Modified: {0}", NullifyJunk(testString));
+        //  NullifyJunk removes blocks of junks and only saves '{' and '}'
+        string cleanedInput = NullifyJunk(input);
 
-        bool groupOpen = false;
-        //int totalGroups = 0;
-        //int points = 0;
-        //int openToken = 0;
-        //int closeToken = 0;
-
-        int i = 0;
-        foreach (var token in testString) // Iterates over input-string
+        /* 
+        Iterate over the the cleanedInput, every iteration removes outermost groups, 
+        reducing size of cleanedInput per iteration 
+        */
+        while (cleanedInput.Length > 0)
         {
-            i++;
-            // If we find start of group while no group is open
-            if (token == '{' && !groupOpen){
-                groupOpen = true;
-                Console.WriteLine(token);
-                //points += countGroup(); // Räkna antalet grupper i den öppna gruppen. Ska returnera när gruppen stängs.
-
-            }
+            cleanedInput = ParseOuterGroup(cleanedInput);
         }
 
-
+        Console.WriteLine("Points: {0}", points);
     }
   }

@@ -39,7 +39,6 @@ class Pyramid(int w, int l, int h) : Shape
 {
     private int Volume => (w*l*h)/3;
     private int Square => w*l;
-
     public override int GetVolume()
     {
         return Volume;
@@ -52,33 +51,30 @@ class Pyramid(int w, int l, int h) : Shape
     {
         return "Pyramid";
     }
-
 }
 class Program
 {
     static Block AddBlock()
     {
-        Console.Write("\n Du vill lägga till ett block:\n");
-        Console.Write("\n Ange bredd: ");
+        Console.Write("\nDu vill lägga till ett block:\n");
+        Console.Write("Ange bredd: ");
         int width = Convert.ToInt32(Console.ReadLine());
-        Console.Write("\n Ange längd: ");
+        Console.Write("Ange längd: ");
         int length = Convert.ToInt32(Console.ReadLine());
-        Console.Write("\n Ange höjd: ");
+        Console.Write("Ange höjd: ");
         int height = Convert.ToInt32(Console.ReadLine());
-
         Block block = new(width, length, height);
         return block;
     }
     static Pyramid AddPyramid()
     {
-        Console.Write("\n Du vill lägga till en pyramid:\n");
-        Console.Write("\n Ange basens bredd: ");
+        Console.Write("\nDu vill lägga till en pyramid:\n");
+        Console.Write("Ange basens bredd: ");
         int width = Convert.ToInt32(Console.ReadLine());
-        Console.Write("\n Ange basens längd: ");
+        Console.Write("Ange basens längd: ");
         int length = Convert.ToInt32(Console.ReadLine());
-        Console.Write("\n Ange höjd: ");
+        Console.Write("Ange höjd: ");
         int height = Convert.ToInt32(Console.ReadLine());
-
         Pyramid pyramid = new(width, length, height);
         return pyramid;
     }
@@ -108,22 +104,24 @@ class Program
 
             if (userInput == "1")
             {
-                /** Adds a block **/ 
             shapeList.Add(AddBlock());
             }
 
             else if (userInput == "2")
             {
-            /** Adds a pyramid **/ 
             shapeList.Add(AddPyramid());
             }
 
             else if (userInput == "3")
             {
-                /** Displays a sorted list with highest volume at the top **/ 
+                /** Sorts list on volume. Writes the sorted list to console **/ 
                 shapeList.Sort((x,y) => y.GetVolume().CompareTo(x.GetVolume()));
                 foreach (var shape in shapeList) {
-                    Console.WriteLine("\nForm: {2}. Volym: {0}. Yta: {1}", shape.GetVolume(), shape.GetSquare(), shape.GetShape());
+                    Console.WriteLine("Form: {2}. Volym: {0}. Yta: {1}", 
+                        shape.GetVolume(), 
+                        shape.GetSquare(), 
+                        shape.GetShape()
+                        );
                 }
             }            
 
@@ -139,7 +137,11 @@ class Program
                     using (StreamWriter writer = File.CreateText(fullPath))
                     {
                         foreach (var shape in shapeList) {
-                            writer.WriteLine("{0},{1},{2}", shape.GetShape(), shape.GetVolume(), shape.GetSquare());
+                            writer.WriteLine("{0},{1},{2}", 
+                            shape.GetShape(), 
+                            shape.GetVolume(), 
+                            shape.GetSquare()
+                            );
                         }
                         Console.WriteLine("\nFile created");
                     }	
@@ -164,7 +166,11 @@ class Program
                     while (line != null)
                         {
                         string[] shapeValues = line.Split(',');
-                        shapeList.Add(new Shape(shapeValues[0], Convert.ToInt32(shapeValues[1]), Convert.ToInt32(shapeValues[2])));
+                        shapeList.Add(new Shape(
+                            shapeValues[0], 
+                            Convert.ToInt32(shapeValues[1]), 
+                            Convert.ToInt32(shapeValues[2]))
+                            );
                         line = reader.ReadLine();
                         }
                     Console.WriteLine("\nFile parsed successfully");
